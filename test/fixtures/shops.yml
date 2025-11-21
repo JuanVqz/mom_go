@@ -1,0 +1,9 @@
+tea:
+  name: Tea Garden
+  subdomain: tea
+  description: Specialty teas
+
+coffee:
+  name: Coffee Club
+  subdomain: coffee
+  description: Artisan coffee drinks
