@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_21_082000) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_21_110000) do
   create_table "shops", force: :cascade do |t|
     t.string "name", null: false
     t.string "subdomain", null: false
@@ -19,4 +19,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_082000) do
     t.datetime "updated_at", null: false
     t.index ["subdomain"], name: "index_shops_on_subdomain", unique: true
   end
+
+  create_table "users", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.string "email", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id", "email"], name: "index_users_on_shop_id_and_email", unique: true
+    t.index ["shop_id"], name: "index_users_on_shop_id"
+  end
+
+  add_foreign_key "users", "shops", on_delete: :restrict
 end

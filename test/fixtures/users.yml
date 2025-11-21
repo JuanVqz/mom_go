@@ -1,0 +1,9 @@
+tea_staff:
+  shop: tea
+  email: staff@tea.momgo.test
+  name: Tea Garden Staff
+
+coffee_staff:
+  shop: coffee
+  email: staff@coffee.momgo.test
+  name: Coffee Club Staff

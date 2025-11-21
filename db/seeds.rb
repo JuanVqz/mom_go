@@ -1,9 +1,15 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+demo_shops = [
+  { name: "Tea Garden", subdomain: "tea", description: "Specialty teas" },
+  { name: "Coffee Club", subdomain: "coffee", description: "Artisan coffee drinks" }
+]
+
+demo_shops.each do |attributes|
+  shop = Shop.find_or_create_by!(subdomain: attributes[:subdomain]) do |record|
+    record.name = attributes[:name]
+    record.description = attributes[:description]
+  end
+
+  shop.users.find_or_create_by!(email: "staff@#{shop.subdomain}.momgo.test") do |user|
+    user.name = "#{shop.name} Staff"
+  end
+end

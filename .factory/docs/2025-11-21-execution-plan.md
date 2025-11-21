@@ -7,7 +7,7 @@
 - `shops.subdomain` unique index enforced; tenant models validated via `MomGo::TenantScoped` concern.
 - `MomGo::TenantScoped` shipped with unit tests ensuring default scope + helper behavior.
 
-## 2. User Domain
+## 2. User Domain ✅ Completed (2025-11-21)
 - **Migration**: create `users` table with `shop_id`, `email`, `name`, timestamps; foreign key `on_delete: :restrict`; unique index on `[:shop_id, :email]`.
 - **Model**: `User` belongs_to `Shop`, validates email uniqueness scoped to shop, optional `normalizes :email`.
 - **Seed**: create a default staff user per demo shop.
