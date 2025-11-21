@@ -1,0 +1,23 @@
+tea_regular:
+  shop: tea
+  name: Regular
+  slug: regular
+  position: 1
+  available: true
+  price_cents: 0
+
+tea_large:
+  shop: tea
+  name: Large
+  slug: large
+  position: 2
+  available: true
+  price_cents: 100
+
+coffee_single:
+  shop: coffee
+  name: Single
+  slug: single
+  position: 1
+  available: true
+  price_cents: 0

@@ -1,0 +1,26 @@
+classic_milk_tea:
+  shop: tea
+  name: Classic Milk Tea
+  slug: classic-milk-tea
+  description: Black tea with creamy milk.
+  position: 1
+  available: true
+  base_price_cents: 500
+
+matcha_cloud:
+  shop: tea
+  name: Matcha Cloud
+  slug: matcha-cloud
+  description: Matcha with salted foam.
+  position: 2
+  available: true
+  base_price_cents: 650
+
+coffee_cold_brew:
+  shop: coffee
+  name: Cold Brew
+  slug: cold-brew
+  description: Slow steeped coffee.
+  position: 1
+  available: false
+  base_price_cents: 450

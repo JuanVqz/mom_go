@@ -1,0 +1,23 @@
+classic_tapioca:
+  shop: tea
+  product: classic_milk_tea
+  component: tea_tapioca
+  price_cents: 50
+  required: false
+  default_portion: half
+
+classic_grass_jelly:
+  shop: tea
+  product: classic_milk_tea
+  component: tea_grass_jelly
+  price_cents: 75
+  required: false
+  default_portion: quarter
+
+matcha_cheese_foam:
+  shop: tea
+  product: matcha_cloud
+  component: tea_cheese_foam
+  price_cents: 0
+  required: true
+  default_portion: quarter

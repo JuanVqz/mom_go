@@ -1,0 +1,14 @@
+classic_milk_tea_milk_teas:
+  shop: tea
+  product: classic_milk_tea
+  category: tea_milk_teas
+
+matcha_cloud_signature:
+  shop: tea
+  product: matcha_cloud
+  category: tea_signature_drinks
+
+cold_brew_specials:
+  shop: coffee
+  product: coffee_cold_brew
+  category: coffee_specials

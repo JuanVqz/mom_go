@@ -1,0 +1,23 @@
+classic_regular:
+  shop: tea
+  product: classic_milk_tea
+  size: tea_regular
+  price_cents: 0
+
+classic_large:
+  shop: tea
+  product: classic_milk_tea
+  size: tea_large
+  price_cents: 100
+
+matcha_regular:
+  shop: tea
+  product: matcha_cloud
+  size: tea_regular
+  price_cents: 50
+
+cold_brew_single:
+  shop: coffee
+  product: coffee_cold_brew
+  size: coffee_single
+  price_cents: 0

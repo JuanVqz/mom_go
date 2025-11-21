@@ -1,0 +1,31 @@
+tea_tapioca:
+  shop: tea
+  name: Tapioca Pearls
+  slug: tapioca-pearls
+  position: 1
+  active: true
+  price_cents: 50
+
+tea_grass_jelly:
+  shop: tea
+  name: Grass Jelly
+  slug: grass-jelly
+  position: 2
+  active: true
+  price_cents: 75
+
+tea_cheese_foam:
+  shop: tea
+  name: Cheese Foam
+  slug: cheese-foam
+  position: 3
+  active: true
+  price_cents: 125
+
+coffee_cold_foam:
+  shop: coffee
+  name: Cold Foam
+  slug: cold-foam
+  position: 1
+  active: true
+  price_cents: 100

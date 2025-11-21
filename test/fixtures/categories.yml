@@ -1,0 +1,20 @@
+tea_milk_teas:
+  shop: tea
+  name: Milk Teas
+  slug: milk-teas
+  position: 1
+  available: true
+
+tea_signature_drinks:
+  shop: tea
+  name: Signature Drinks
+  slug: signature-drinks
+  position: 2
+  available: true
+
+coffee_specials:
+  shop: coffee
+  name: Specials
+  slug: specials
+  position: 1
+  available: true

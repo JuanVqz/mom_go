@@ -12,7 +12,7 @@
 - **Model**: `User` belongs_to `Shop`, validates email uniqueness scoped to shop, optional `normalizes :email`.
 - **Seed**: create a default staff user per demo shop.
 
-## 3. Catalog Core
+## 3. Catalog Core ✅ Completed (2025-11-21)
 ### 3.1 Base Tables
 - `categories`, `products`, `sizes`, `components` tables with `shop_id`, naming/ordering fields, `available`/`active` booleans, integer cents defaults, timestamps.
 - Index pattern: `[:shop_id, :position]`, `[:shop_id, :slug]` (unique), etc.
