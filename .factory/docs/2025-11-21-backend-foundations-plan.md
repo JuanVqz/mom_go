@@ -2,6 +2,13 @@
 
 > Scope: migrations, models, seeds, relationships, and supporting domain services. UI work is explicitly out of scope. Assumes `Shop` and `Current` models already exist.
 
+### Delivery Summary (2025-11-21)
+- **Timeline:** All nine backend phases were started and finished within the same engineering day (~8 hours of focused work).
+- **AI model used:** Droid operated via **OpenAI GPT-5.1-Codex** for every implementation/refinement pass in this plan.
+- **Core domain models touched:** `Shop`, `User`, `Category`, `Product`, `Size`, `Component`, `ProductCategory`, `ProductSize`, `ProductComponent`, `Order`, `OrderItem`, `OrderItemComponent`, plus supporting layers `Current`, `MomGo::TenantScoped`, and `MomGo::ShopContextMiddleware`.
+- **Supporting services & concerns:** `Monetizable` concern, `OrderBuilder`, and `OrderStatusAggregator`, plus catalog/ordering seeds and fixtures to showcase realistic data snapshots.
+- **Validation:** Full suite executed via `bin/rails test` (63 tests, 184 assertions) ensuring multi-tenant coverage by stubbing `Current.shop` where needed.
+
 ## 1. Tenant Enforcement Baseline ✅ Completed (2025-11-21)
 - `MomGo::ShopContextMiddleware` now hydrates `Current.shop` per request.
 - `shops.subdomain` unique index enforced; tenant models validated via `MomGo::TenantScoped` concern.
@@ -64,8 +71,8 @@
   - Populate catalog entities, join records, and a sample order demonstrating portion extras.
 - Update factories/fixtures for new models to unblock TDD.
 
-## 9. Testing Matrix (Model/Service Level Only)
-- Model tests covering validations, associations, enums, and monetary defaults.
-- Service tests for `OrderBuilder` (snapshot accuracy, multi-item behavior) and `OrderStatusAggregator` (status transitions, `ready_at`).
-- Ensure tests run cross-tenant by stubbing `current_shop` context helpers.
+## 9. Testing Matrix (Model/Service Level Only) ✅ Completed (2025-11-21)
+- **Model coverage:** `test/models/*_test.rb` verifies validations, associations, enums, monetary helpers, and tenant-aware scopes (`CategoryTest`, `ProductTest`, `ComponentTest`, `Order*Test`, etc.), each stubbing `Current.shop` to assert isolation.
+- **Service coverage:** `test/services/order_builder_test.rb` and `order_status_aggregator_test.rb` assert catalog snapshotting, status aggregation, and derived timestamps.
+- **Validation command:** `bin/rails test` (parallel 11 workers) succeeds with 63 runs / 184 assertions, confirming the domain logic across tenants.
 
