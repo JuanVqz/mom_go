@@ -1,0 +1,19 @@
+tea_classic_regular:
+  shop: tea
+  order: tea_pending
+  product: classic_milk_tea
+  product_size: classic_regular
+  product_name: Classic Milk Tea
+  size_name: Regular
+  price_cents: 500
+  status: pending
+
+tea_matcha_large:
+  shop: tea
+  order: tea_ready
+  product: matcha_cloud
+  product_size: matcha_regular
+  product_name: Matcha Cloud
+  size_name: Regular
+  price_cents: 700
+  status: ready

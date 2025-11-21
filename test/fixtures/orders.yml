@@ -1,0 +1,22 @@
+tea_pending:
+  shop: tea
+  number: T-1001
+  status: pending
+  currency: MXN
+  items_total_cents: 1500
+  discount_total_cents: 0
+  tax_total_cents: 150
+  total_cents: 1650
+  total_item_count: 2
+
+tea_ready:
+  shop: tea
+  number: T-1002
+  status: ready
+  currency: MXN
+  items_total_cents: 2200
+  discount_total_cents: 0
+  tax_total_cents: 220
+  total_cents: 2420
+  total_item_count: 3
+  ready_at: <%= Time.zone.parse("2025-11-21 10:00:00") %>

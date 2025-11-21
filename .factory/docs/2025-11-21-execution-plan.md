@@ -27,17 +27,17 @@
 - Seed sample catalog data per shop demonstrating at least two products, sizes, and component combos.
 
 ## 4. Ordering Tables
-### 4.1 Orders
+### 4.1 Orders ✅ Completed (2025-11-21)
 - Migration: `orders` with `shop_id`, `number`, `status` enum (string/integer + CHECK), currency, monetary fields default 0, `total_item_count`, `ready_at`, timestamps.
 - Indexes: unique `[:shop_id, :number]`, lookup indexes for `[:shop_id, :status]`.
 - Model: status enum (`pending`, `accepted`, ...), validations for totals (>=0), callback to set `ready_at` when transitioning to `ready`.
 
-### 4.2 Order Items
+### 4.2 Order Items ✅ Completed (2025-11-21)
 - Migration: `order_items` referencing `orders`, `products`, `product_sizes`, storing snapshot names (`product_name`, `size_name`) and `price_cents` default 0, status enum, timestamps.
 - Indexes: `[:order_id]`, `[:shop_id, :status]` (through `orders.shop_id`), FK constraints `on_delete: :restrict`.
 - Model: associations, enum for item statuses, helper to compute component totals.
 
-### 4.3 Order Item Components
+### 4.3 Order Item Components ✅ Completed (2025-11-21)
 - Migration: `order_item_components` with FKs to `order_items` and `components`, snapshot `component_name`, `portion` enum, `price_cents` default 0, timestamps.
 - Indexes: `[:order_item_id]`, optional uniqueness on `[:order_item_id, :component_id]` (business rule dependent).
 - Model: enum for `portion`, validations ensuring values match catalog defaults when required.

@@ -1,0 +1,15 @@
+tea_classic_tapioca:
+  shop: tea
+  order_item: tea_classic_regular
+  component: tea_tapioca
+  component_name: Tapioca Pearls
+  portion: half
+  price_cents: 50
+
+tea_matcha_cheese:
+  shop: tea
+  order_item: tea_matcha_large
+  component: tea_cheese_foam
+  component_name: Cheese Foam
+  portion: quarter
+  price_cents: 0

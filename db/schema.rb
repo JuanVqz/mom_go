@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_21_173644) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
   create_table "categories", force: :cascade do |t|
     t.integer "shop_id", null: false
     t.string "name", null: false
@@ -36,6 +36,64 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_173644) do
     t.index ["shop_id", "position"], name: "index_components_on_shop_id_and_position"
     t.index ["shop_id", "slug"], name: "index_components_on_shop_id_and_slug", unique: true
     t.index ["shop_id"], name: "index_components_on_shop_id"
+  end
+
+  create_table "order_item_components", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.integer "order_item_id", null: false
+    t.integer "component_id"
+    t.string "component_name", null: false
+    t.integer "portion", default: 0, null: false
+    t.integer "price_cents", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["component_id"], name: "index_order_item_components_on_component_id"
+    t.index ["order_item_id", "component_id"], name: "index_order_item_components_uniqueness", unique: true
+    t.index ["order_item_id"], name: "index_order_item_components_on_order_item_id"
+    t.index ["shop_id"], name: "index_order_item_components_on_shop_id"
+    t.check_constraint "price_cents >= 0", name: "order_item_components_price_cents_check"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.integer "order_id", null: false
+    t.integer "product_id", null: false
+    t.integer "product_size_id"
+    t.string "product_name", null: false
+    t.string "size_name"
+    t.integer "price_cents", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+    t.index ["product_size_id"], name: "index_order_items_on_product_size_id"
+    t.index ["shop_id", "status"], name: "index_order_items_on_shop_id_and_status"
+    t.index ["shop_id"], name: "index_order_items_on_shop_id"
+    t.check_constraint "price_cents >= 0", name: "order_items_price_cents_check"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.string "number", null: false
+    t.integer "status", default: 0, null: false
+    t.string "currency", default: "MXN", null: false
+    t.integer "items_total_cents", default: 0, null: false
+    t.integer "discount_total_cents", default: 0, null: false
+    t.integer "tax_total_cents", default: 0, null: false
+    t.integer "total_cents", default: 0, null: false
+    t.integer "total_item_count", default: 0, null: false
+    t.datetime "ready_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id", "number"], name: "index_orders_on_shop_id_and_number", unique: true
+    t.index ["shop_id", "status"], name: "index_orders_on_shop_id_and_status"
+    t.index ["shop_id"], name: "index_orders_on_shop_id"
+    t.check_constraint "discount_total_cents >= 0", name: "orders_discount_total_cents_check"
+    t.check_constraint "items_total_cents >= 0", name: "orders_items_total_cents_check"
+    t.check_constraint "tax_total_cents >= 0", name: "orders_tax_total_cents_check"
+    t.check_constraint "total_cents >= 0", name: "orders_total_cents_check"
+    t.check_constraint "total_item_count >= 0", name: "orders_total_item_count_check"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -128,6 +186,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_173644) do
 
   add_foreign_key "categories", "shops", on_delete: :restrict
   add_foreign_key "components", "shops", on_delete: :restrict
+  add_foreign_key "order_item_components", "components", on_delete: :restrict
+  add_foreign_key "order_item_components", "order_items", on_delete: :restrict
+  add_foreign_key "order_item_components", "shops", on_delete: :restrict
+  add_foreign_key "order_items", "orders", on_delete: :restrict
+  add_foreign_key "order_items", "product_sizes", on_delete: :restrict
+  add_foreign_key "order_items", "products", on_delete: :restrict
+  add_foreign_key "order_items", "shops", on_delete: :restrict
+  add_foreign_key "orders", "shops", on_delete: :restrict
   add_foreign_key "product_categories", "categories", on_delete: :restrict
   add_foreign_key "product_categories", "products", on_delete: :restrict
   add_foreign_key "product_categories", "shops", on_delete: :restrict

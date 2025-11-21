@@ -115,6 +115,43 @@ def seed_catalog_for(shop, blueprint)
   end
 end
 
+def seed_sample_order_for(shop)
+  product = shop.products.order(:position).first
+  return unless product
+
+  product_size = product.product_sizes.order(:id).first
+  items_total_cents = product.base_price_cents + product_size&.price_cents.to_i
+  tax_total_cents = (items_total_cents * 0.1).floor
+  number = "#{shop.subdomain.upcase}-ORDER-001"
+
+  order = Order.find_or_create_by!(shop: shop, number: number) do |record|
+    record.status = :ready
+    record.currency = "MXN"
+    record.items_total_cents = items_total_cents
+    record.discount_total_cents = 0
+    record.tax_total_cents = tax_total_cents
+    record.total_cents = items_total_cents + tax_total_cents
+    record.total_item_count = 1
+    record.ready_at = Time.current
+  end
+
+  order_item = order.order_items.find_or_create_by!(product: product, product_size: product_size) do |order_item|
+    order_item.product_name = product.name
+    order_item.size_name = product_size&.size&.name
+    order_item.price_cents = items_total_cents
+    order_item.status = :ready
+  end
+
+  component_option = product.product_components.order(:id).first
+  if component_option
+    order_item.order_item_components.find_or_create_by!(component: component_option.component) do |record|
+      record.component_name = component_option.component.name
+      record.price_cents = component_option.price_cents
+      record.portion = component_option.default_portion
+    end
+  end
+end
+
 demo_shops.each do |attributes|
   shop = Shop.find_or_create_by!(subdomain: attributes[:subdomain]) do |record|
     record.name = attributes[:name]
@@ -126,4 +163,5 @@ demo_shops.each do |attributes|
   end
 
   seed_catalog_for(shop, catalog_blueprint)
+  seed_sample_order_for(shop)
 end
