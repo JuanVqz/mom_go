@@ -36,6 +36,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.index ["shop_id", "position"], name: "index_components_on_shop_id_and_position"
     t.index ["shop_id", "slug"], name: "index_components_on_shop_id_and_slug", unique: true
     t.index ["shop_id"], name: "index_components_on_shop_id"
+    t.check_constraint "price_cents >= 0", name: "components_price_cents_check"
   end
 
   create_table "order_item_components", force: :cascade do |t|
@@ -48,9 +49,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["component_id"], name: "index_order_item_components_on_component_id"
-    t.index ["order_item_id", "component_id"], name: "index_order_item_components_uniqueness", unique: true
     t.index ["order_item_id"], name: "index_order_item_components_on_order_item_id"
+    t.index ["shop_id", "order_item_id", "component_id"], name: "index_order_item_components_uniqueness", unique: true
     t.index ["shop_id"], name: "index_order_item_components_on_shop_id"
+    t.check_constraint "portion IN (0,1,2,3,4)", name: "order_item_components_portion_check"
     t.check_constraint "price_cents >= 0", name: "order_item_components_price_cents_check"
   end
 
@@ -71,6 +73,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.index ["shop_id", "status"], name: "index_order_items_on_shop_id_and_status"
     t.index ["shop_id"], name: "index_order_items_on_shop_id"
     t.check_constraint "price_cents >= 0", name: "order_items_price_cents_check"
+    t.check_constraint "status IN (0,1,2,3,4)", name: "order_items_status_check"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -91,6 +94,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.index ["shop_id"], name: "index_orders_on_shop_id"
     t.check_constraint "discount_total_cents >= 0", name: "orders_discount_total_cents_check"
     t.check_constraint "items_total_cents >= 0", name: "orders_items_total_cents_check"
+    t.check_constraint "status IN (0,1,2,3,4,5)", name: "orders_status_check"
     t.check_constraint "tax_total_cents >= 0", name: "orders_tax_total_cents_check"
     t.check_constraint "total_cents >= 0", name: "orders_total_cents_check"
     t.check_constraint "total_item_count >= 0", name: "orders_total_item_count_check"
@@ -121,6 +125,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.index ["product_id"], name: "index_product_components_on_product_id"
     t.index ["shop_id", "product_id", "component_id"], name: "index_product_components_uniqueness", unique: true
     t.index ["shop_id"], name: "index_product_components_on_shop_id"
+    t.check_constraint "default_portion IN (0,1,2,3,4)", name: "product_components_default_portion_check"
+    t.check_constraint "price_cents >= 0", name: "product_components_price_cents_check"
   end
 
   create_table "product_sizes", force: :cascade do |t|
@@ -134,6 +140,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.index ["shop_id", "product_id", "size_id"], name: "index_product_sizes_uniqueness", unique: true
     t.index ["shop_id"], name: "index_product_sizes_on_shop_id"
     t.index ["size_id"], name: "index_product_sizes_on_size_id"
+    t.check_constraint "price_cents >= 0", name: "product_sizes_price_cents_check"
   end
 
   create_table "products", force: :cascade do |t|
@@ -149,6 +156,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.index ["shop_id", "position"], name: "index_products_on_shop_id_and_position"
     t.index ["shop_id", "slug"], name: "index_products_on_shop_id_and_slug", unique: true
     t.index ["shop_id"], name: "index_products_on_shop_id"
+    t.check_constraint "base_price_cents >= 0", name: "products_base_price_cents_check"
   end
 
   create_table "shops", force: :cascade do |t|
@@ -172,6 +180,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.index ["shop_id", "position"], name: "index_sizes_on_shop_id_and_position"
     t.index ["shop_id", "slug"], name: "index_sizes_on_shop_id_and_slug", unique: true
     t.index ["shop_id"], name: "index_sizes_on_shop_id"
+    t.check_constraint "price_cents >= 0", name: "sizes_price_cents_check"
   end
 
   create_table "users", force: :cascade do |t|

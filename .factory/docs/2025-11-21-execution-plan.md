@@ -52,7 +52,7 @@
 - Implement `OrderStatusAggregator` (or callbacks) to derive `Order.status`, `total_item_count`, and `ready_at` from item statuses.
 - Add unit tests for both services; no controllers/views yet.
 
-## 7. Constraints & Integrity
+## 7. Constraints & Integrity ✅ Completed (2025-11-21)
 - Apply `CHECK (price_cents >= 0)` to all monetary columns via migrations.
 - Enforce enum constraints for `status` and `portion` (Rails enums + database check).
 - Ensure all foreign keys use `on_delete: :restrict` to protect historical data.

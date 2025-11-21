@@ -14,6 +14,7 @@ class CreateOrderItems < ActiveRecord::Migration[8.0]
     end
 
     add_index :order_items, %i[shop_id status]
+    add_check_constraint :order_items, "status IN (0,1,2,3,4)", name: "order_items_status_check"
 
     add_check_constraint :order_items, "price_cents >= 0", name: "order_items_price_cents_check"
   end

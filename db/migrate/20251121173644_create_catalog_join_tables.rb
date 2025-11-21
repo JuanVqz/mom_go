@@ -20,6 +20,7 @@ class CreateCatalogJoinTables < ActiveRecord::Migration[8.0]
     end
 
     add_index :product_sizes, %i[shop_id product_id size_id], unique: true, name: "index_product_sizes_uniqueness"
+    add_check_constraint :product_sizes, "price_cents >= 0", name: "product_sizes_price_cents_check"
 
     create_table :product_components do |t|
       t.references :shop, null: false, foreign_key: { on_delete: :restrict }
@@ -33,5 +34,7 @@ class CreateCatalogJoinTables < ActiveRecord::Migration[8.0]
     end
 
     add_index :product_components, %i[shop_id product_id component_id], unique: true, name: "index_product_components_uniqueness"
+    add_check_constraint :product_components, "price_cents >= 0", name: "product_components_price_cents_check"
+    add_check_constraint :product_components, "default_portion IN (0,1,2,3,4)", name: "product_components_default_portion_check"
   end
 end
