@@ -1,5 +1,8 @@
 class Order < ApplicationRecord
   include MomGo::TenantScoped
+  include Monetizable
+
+  monetizes :items_total_cents, :discount_total_cents, :tax_total_cents, :total_cents, currency_attribute: :currency
 
   has_many :order_items, dependent: :restrict_with_exception
 

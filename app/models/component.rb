@@ -1,5 +1,8 @@
 class Component < ApplicationRecord
   include MomGo::TenantScoped
+  include Monetizable
+
+  monetizes :price_cents
 
   has_many :product_components, dependent: :restrict_with_exception
   has_many :products, through: :product_components

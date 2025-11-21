@@ -42,24 +42,30 @@
 - Indexes: `[:order_item_id]`, optional uniqueness on `[:order_item_id, :component_id]` (business rule dependent).
 - Model: enum for `portion`, validations ensuring values match catalog defaults when required.
 
-## 5. Domain Services / Business Logic
+## 5. Monetary Formatting Helpers ✅ Completed (2025-11-21)
+- `Monetizable` concern normalizes `*_cents` fields, exposes a `price` helper returning a BigDecimal, and provides `formatted_price` strings such as `$100.00 MXN`.
+- Applied to every model with monetary columns (`Product`, `Size`, `Component`, `ProductSize`, `ProductComponent`, `Order`, `OrderItem`, `OrderItemComponent`).
+- Unit tests cover conversion accuracy, formatting, and MXN defaults (e.g., `price_cents = 10` → `price = 0.10`, `formatted_price = "$0.10 MXN"`).
+
+## 6. Domain Services / Business Logic
 - Implement `OrderBuilder` service (PORO) that accepts cart payload + current shop, snapshots catalog data, builds `orders`, `order_items`, `order_item_components` inside transaction.
 - Implement `OrderStatusAggregator` (or callbacks) to derive `Order.status`, `total_item_count`, and `ready_at` from item statuses.
 - Add unit tests for both services; no controllers/views yet.
 
-## 6. Constraints & Integrity
+## 7. Constraints & Integrity
 - Apply `CHECK (price_cents >= 0)` to all monetary columns via migrations.
 - Enforce enum constraints for `status` and `portion` (Rails enums + database check).
 - Ensure all foreign keys use `on_delete: :restrict` to protect historical data.
 - Create compound indexes prefixed by `shop_id` for tenant isolation (e.g., `[:shop_id, :product_id]`).
 
-## 7. Seeds & Fixtures
+## 8. Seeds & Fixtures
 - Extend `db/seeds.rb` to:
   - Create demo shop(s) if absent.
   - Populate catalog entities, join records, and a sample order demonstrating portion extras.
 - Update factories/fixtures for new models to unblock TDD.
 
-## 8. Testing Matrix (Model/Service Level Only)
+## 9. Testing Matrix (Model/Service Level Only)
 - Model tests covering validations, associations, enums, and monetary defaults.
 - Service tests for `OrderBuilder` (snapshot accuracy, multi-item behavior) and `OrderStatusAggregator` (status transitions, `ready_at`).
 - Ensure tests run cross-tenant by stubbing `current_shop` context helpers.
+

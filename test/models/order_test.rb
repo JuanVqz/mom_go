@@ -43,6 +43,14 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal "MXN", order.currency
   end
 
+  test "monetized helpers expose totals" do
+    order = orders(:tea_pending)
+    order.update!(items_total_cents: 12345, currency: "MXN")
+
+    assert_equal BigDecimal("123.45"), order.items_total
+    assert_equal "$123.45 MXN", order.formatted_items_total
+  end
+
   test "ready_at stamps when transitioning to ready" do
     order = orders(:tea_pending)
     ready_time = Time.zone.parse("2025-11-21 12:00:00")

@@ -1,5 +1,8 @@
 class Product < ApplicationRecord
   include MomGo::TenantScoped
+  include Monetizable
+
+  monetizes :base_price_cents
 
   has_many :product_categories, dependent: :restrict_with_exception
   has_many :categories, through: :product_categories

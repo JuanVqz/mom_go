@@ -1,5 +1,8 @@
 class OrderItemComponent < ApplicationRecord
   include MomGo::TenantScoped
+  include Monetizable
+
+  monetizes :price_cents
 
   belongs_to :order_item
   belongs_to :component, optional: true

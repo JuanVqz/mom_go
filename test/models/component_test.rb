@@ -40,4 +40,11 @@ class ComponentTest < ActiveSupport::TestCase
     assert_equal [product_components(:classic_tapioca).id], component.product_components.ids
     assert_equal [products(:classic_milk_tea).id], component.products.ids
   end
+
+  test "exposes price helpers" do
+    component = components(:tea_tapioca)
+
+    assert_equal BigDecimal("0.50"), component.price
+    assert_equal "$0.50 MXN", component.formatted_price
+  end
 end

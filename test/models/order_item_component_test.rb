@@ -48,4 +48,10 @@ class OrderItemComponentTest < ActiveSupport::TestCase
 
     assert_equal components(:tea_cheese_foam).name, record.component_name
   end
+
+  test "formatted price defaults to MXN" do
+    component = order_item_components(:tea_classic_tapioca)
+
+    assert_equal "$0.50 MXN", component.formatted_price
+  end
 end
