@@ -47,7 +47,7 @@
 - Applied to every model with monetary columns (`Product`, `Size`, `Component`, `ProductSize`, `ProductComponent`, `Order`, `OrderItem`, `OrderItemComponent`).
 - Unit tests cover conversion accuracy, formatting, and MXN defaults (e.g., `price_cents = 10` → `price = 0.10`, `formatted_price = "$0.10 MXN"`).
 
-## 6. Domain Services / Business Logic
+## 6. Domain Services / Business Logic ✅ Completed (2025-11-21)
 - Implement `OrderBuilder` service (PORO) that accepts cart payload + current shop, snapshots catalog data, builds `orders`, `order_items`, `order_item_components` inside transaction.
 - Implement `OrderStatusAggregator` (or callbacks) to derive `Order.status`, `total_item_count`, and `ready_at` from item statuses.
 - Add unit tests for both services; no controllers/views yet.
