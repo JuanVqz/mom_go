@@ -20,6 +20,14 @@ class ShopTest < ActiveSupport::TestCase
     assert_equal [categories(:tea_milk_teas).id, categories(:tea_signature_drinks).id].sort, shop.categories.ids.sort
     assert_equal [products(:classic_milk_tea).id, products(:matcha_cloud).id].sort, shop.products.ids.sort
     assert_equal [sizes(:tea_regular).id, sizes(:tea_large).id].sort, shop.sizes.ids.sort
-    assert_equal [components(:tea_tapioca).id, components(:tea_grass_jelly).id, components(:tea_cheese_foam).id].sort, shop.components.ids.sort
+    assert_equal [
+      components(:tea_assam_black_tea_base).id,
+      components(:tea_house_milk_blend).id,
+      components(:tea_ceremonial_matcha_shot).id,
+      components(:tea_vanilla_cloud_base).id,
+      components(:tea_tapioca).id,
+      components(:tea_grass_jelly).id,
+      components(:tea_cheese_foam).id
+    ].sort, shop.components.ids.sort
   end
 end

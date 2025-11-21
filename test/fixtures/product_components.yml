@@ -14,6 +14,22 @@ classic_grass_jelly:
   required: false
   default_portion: quarter
 
+classic_black_tea_base:
+  shop: tea
+  product: classic_milk_tea
+  component: tea_assam_black_tea_base
+  price_cents: 0
+  required: true
+  default_portion: full
+
+classic_house_milk_blend:
+  shop: tea
+  product: classic_milk_tea
+  component: tea_house_milk_blend
+  price_cents: 0
+  required: true
+  default_portion: full
+
 matcha_cheese_foam:
   shop: tea
   product: matcha_cloud
@@ -21,3 +37,19 @@ matcha_cheese_foam:
   price_cents: 0
   required: true
   default_portion: quarter
+
+matcha_ceremonial_shot:
+  shop: tea
+  product: matcha_cloud
+  component: tea_ceremonial_matcha_shot
+  price_cents: 0
+  required: true
+  default_portion: full
+
+matcha_vanilla_cloud_base:
+  shop: tea
+  product: matcha_cloud
+  component: tea_vanilla_cloud_base
+  price_cents: 0
+  required: true
+  default_portion: half

@@ -6,10 +6,42 @@ tea_classic_tapioca:
   portion: half
   price_cents: 50
 
+tea_classic_black_base:
+  shop: tea
+  order_item: tea_classic_regular
+  component: tea_assam_black_tea_base
+  component_name: Assam Black Tea Base
+  portion: full
+  price_cents: 0
+
+tea_classic_milk_blend:
+  shop: tea
+  order_item: tea_classic_regular
+  component: tea_house_milk_blend
+  component_name: House Milk Blend
+  portion: full
+  price_cents: 0
+
 tea_matcha_cheese:
   shop: tea
   order_item: tea_matcha_large
   component: tea_cheese_foam
   component_name: Cheese Foam
   portion: quarter
+  price_cents: 0
+
+tea_matcha_ceremonial:
+  shop: tea
+  order_item: tea_matcha_large
+  component: tea_ceremonial_matcha_shot
+  component_name: Ceremonial Matcha Shot
+  portion: full
+  price_cents: 0
+
+tea_matcha_cloud_base:
+  shop: tea
+  order_item: tea_matcha_large
+  component: tea_vanilla_cloud_base
+  component_name: Vanilla Cloud Base
+  portion: half
   price_cents: 0

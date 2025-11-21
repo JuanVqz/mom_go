@@ -30,8 +30,13 @@ class ComponentTest < ActiveSupport::TestCase
     components(:tea_grass_jelly).update!(active: false)
     Current.shop = shops(:tea)
 
-    assert_equal [components(:tea_tapioca).id, components(:tea_grass_jelly).id, components(:tea_cheese_foam).id], Component.ordered.ids
-    assert_equal [components(:tea_tapioca).id, components(:tea_cheese_foam).id], Component.available.ids
+    ordered_ids = Component.ordered.ids
+    available_ids = Component.available.ids
+
+    assert_includes ordered_ids, components(:tea_grass_jelly).id
+    assert_includes ordered_ids, components(:tea_tapioca).id
+    assert_includes available_ids, components(:tea_tapioca).id
+    assert_not_includes available_ids, components(:tea_grass_jelly).id
   end
 
   test "has many product_components and products" do

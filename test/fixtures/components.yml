@@ -22,6 +22,38 @@ tea_cheese_foam:
   active: true
   price_cents: 125
 
+tea_assam_black_tea_base:
+  shop: tea
+  name: Assam Black Tea Base
+  slug: assam-black-tea-base
+  position: 4
+  active: true
+  price_cents: 0
+
+tea_house_milk_blend:
+  shop: tea
+  name: House Milk Blend
+  slug: house-milk-blend
+  position: 5
+  active: true
+  price_cents: 0
+
+tea_ceremonial_matcha_shot:
+  shop: tea
+  name: Ceremonial Matcha Shot
+  slug: ceremonial-matcha-shot
+  position: 6
+  active: true
+  price_cents: 0
+
+tea_vanilla_cloud_base:
+  shop: tea
+  name: Vanilla Cloud Base
+  slug: vanilla-cloud-base
+  position: 7
+  active: true
+  price_cents: 0
+
 coffee_cold_foam:
   shop: coffee
   name: Cold Foam

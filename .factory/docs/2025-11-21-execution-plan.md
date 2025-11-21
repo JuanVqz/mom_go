@@ -58,7 +58,7 @@
 - Ensure all foreign keys use `on_delete: :restrict` to protect historical data.
 - Create compound indexes prefixed by `shop_id` for tenant isolation (e.g., `[:shop_id, :product_id]`).
 
-## 8. Seeds & Fixtures
+## 8. Seeds & Fixtures ✅ Completed (2025-11-21)
 - Extend `db/seeds.rb` to:
   - Create demo shop(s) if absent.
   - Populate catalog entities, join records, and a sample order demonstrating portion extras.

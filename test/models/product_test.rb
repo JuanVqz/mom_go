@@ -41,7 +41,17 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal [product_categories(:classic_milk_tea_milk_teas).id], product.product_categories.ids
     assert_equal [sizes(:tea_regular).id, sizes(:tea_large).id].sort, product.sizes.ids.sort
     assert_equal [product_sizes(:classic_regular).id, product_sizes(:classic_large).id].sort, product.product_sizes.ids.sort
-    assert_equal [components(:tea_tapioca).id, components(:tea_grass_jelly).id].sort, product.components.ids.sort
-    assert_equal [product_components(:classic_tapioca).id, product_components(:classic_grass_jelly).id].sort, product.product_components.ids.sort
+    assert_equal [
+      components(:tea_assam_black_tea_base).id,
+      components(:tea_house_milk_blend).id,
+      components(:tea_tapioca).id,
+      components(:tea_grass_jelly).id
+    ].sort, product.components.ids.sort
+    assert_equal [
+      product_components(:classic_black_tea_base).id,
+      product_components(:classic_house_milk_blend).id,
+      product_components(:classic_tapioca).id,
+      product_components(:classic_grass_jelly).id
+    ].sort, product.product_components.ids.sort
   end
 end
