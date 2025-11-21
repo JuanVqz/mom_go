@@ -23,6 +23,8 @@ class OrderItem < ApplicationRecord
 
   before_validation :sync_shop_from_order
   before_validation :snapshot_catalog_names
+  after_commit :recalculate_parent_order_status, on: [:create, :update]
+  after_commit :recalculate_parent_order_status_after_destroy, on: :destroy
 
   private
 
@@ -42,5 +44,20 @@ class OrderItem < ApplicationRecord
     return if order.shop_id == shop_id
 
     errors.add(:shop, "must match order shop")
+  end
+
+  def recalculate_parent_order_status
+    return unless order
+
+    OrderStatusAggregator.call(order.reload, persist: true)
+  end
+
+  def recalculate_parent_order_status_after_destroy
+    return unless order_id
+
+    parent_order = Order.find_by(id: order_id)
+    return unless parent_order
+
+    OrderStatusAggregator.call(parent_order, persist: true)
   end
 end
