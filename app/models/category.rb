@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-  include MomGo::TenantScoped
+  include ShopScoped
 
   has_many :product_categories, dependent: :restrict_with_exception
   has_many :products, through: :product_categories

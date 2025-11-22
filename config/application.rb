@@ -21,8 +21,8 @@ module MomGo
 
     config.autoload_lib(ignore: %w[assets tasks])
 
-    require "middleware/shop_context_middleware"
-    config.middleware.use Middleware::ShopContextMiddleware
+    require "middleware/current_shop_resolver_middleware"
+    config.middleware.use Middleware::CurrentShopResolverMiddleware
     config.middleware.use Rack::Attack
 
     config.time_zone = "Central Time (US & Canada)"

@@ -20,7 +20,7 @@ module Shops
       get new_shops_session_path
 
       assert_response :not_found
-      assert_match I18n.t("auth.errors.shop_missing"), @response.body
+      assert_includes @response.body, "The page you were looking for"
     end
 
     test "rejects blank submission" do

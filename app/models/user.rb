@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include MomGo::TenantScoped
+  include ShopScoped
   include Users::Credentials
 
   validates :name, presence: true

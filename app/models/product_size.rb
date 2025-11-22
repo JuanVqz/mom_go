@@ -1,5 +1,5 @@
 class ProductSize < ApplicationRecord
-  include MomGo::TenantScoped
+  include ShopScoped
   include Monetizable
 
   monetizes :price_cents

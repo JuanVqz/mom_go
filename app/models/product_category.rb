@@ -1,5 +1,5 @@
 class ProductCategory < ApplicationRecord
-  include MomGo::TenantScoped
+  include ShopScoped
 
   belongs_to :product
   belongs_to :category
