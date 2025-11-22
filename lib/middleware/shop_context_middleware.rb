@@ -1,4 +1,4 @@
-module MomGo
+module Middleware
   class ShopContextMiddleware
     def initialize(app)
       @app = app
