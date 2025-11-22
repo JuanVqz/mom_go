@@ -2,8 +2,18 @@ tea_staff:
   shop: tea
   email: staff@tea.momgo.test
   name: Tea Garden Staff
+  password_digest: <%= BCrypt::Password.create("tea-credential") %>
 
 coffee_staff:
   shop: coffee
   email: staff@coffee.momgo.test
   name: Coffee Club Staff
+  password_digest: <%= BCrypt::Password.create("coffee-credential") %>
+
+locked_staff:
+  shop: tea
+  email: locked@tea.momgo.test
+  name: Locked Staff
+  password_digest: <%= BCrypt::Password.create("locked-credential") %>
+  locked_at: <%= 1.hour.ago %>
+  failed_attempts: 5

@@ -168,6 +168,7 @@ demo_shops.each do |attributes|
 
   shop.users.find_or_create_by!(email: "staff@#{shop.subdomain}.momgo.test") do |user|
     user.name = "#{shop.name} Staff"
+    user.password = "#{shop.subdomain.capitalize}_password"
   end
 
   seed_catalog_for(shop, catalog_blueprint)

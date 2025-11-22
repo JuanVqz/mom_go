@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   teardown { Current.reset }
 
   test "requires name and email" do
-    user = User.new(shop: shops(:tea))
+    user = User.new(shop: shops(:tea), password: "credential123")
 
     assert_not user.valid?
     assert_includes user.errors[:name], "can't be blank"
@@ -14,7 +14,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "normalizes and enforces unique email per shop" do
     shop = shops(:tea)
-    user = User.new(shop:, name: " Another Staff ", email: " STAFF+manager@TEA.MOMGO.TEST ")
+    user = User.new(shop:, name: " Another Staff ", email: " STAFF+manager@TEA.MOMGO.TEST ", password: "credential123")
 
     assert user.valid?
     assert_equal "Another Staff", user.name
@@ -27,9 +27,37 @@ class UserTest < ActiveSupport::TestCase
 
   test "scope respects Current.shop" do
     Current.shop = shops(:tea)
-    assert_equal [users(:tea_staff).id], User.all.ids
+    assert_equal User.where(shop: shops(:tea)).ids.sort, User.all.ids.sort
 
     Current.shop = shops(:coffee)
-    assert_equal [users(:coffee_staff).id], User.all.ids
+    assert_equal User.where(shop: shops(:coffee)).ids.sort, User.all.ids.sort
   end
+
+  test "requires password on create" do
+    user = User.new(shop: shops(:tea), name: "Test", email: "test@tea.momgo.test")
+
+    assert_not user.valid?
+    assert_includes user.errors[:password], "can't be blank"
+  end
+
+  test "authenticates against password digest" do
+    user = users(:tea_staff)
+
+    assert user.authenticate("tea-credential")
+    assert_not user.authenticate("wrong-credential")
+  end
+
+  test "lock helpers toggle state" do
+    user = users(:tea_staff)
+
+    refute user.locked?
+    user.increment_failed_attempts!(threshold: 1)
+
+    assert user.locked?
+
+    user.unlock_account!
+    refute user.locked?
+    assert_equal 0, user.failed_attempts
+  end
+
 end

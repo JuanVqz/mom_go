@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem "bcrypt", "~> 3.1"
 gem "jbuilder"
 gem "propshaft"
 gem "puma", ">= 5.0"
@@ -9,9 +10,6 @@ gem "solid_queue"
 gem "sqlite3", ">= 2.1"
 gem "thruster", require: false
 gem "tzinfo-data", platforms: %i[ windows jruby ]
-
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
 
 group :development, :test do
   gem "brakeman", require: false
