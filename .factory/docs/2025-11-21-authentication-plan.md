@@ -58,10 +58,10 @@ Additional constraints/indexes:
 3. **Password Reset & Lockout (Week 3)** — ✅ Completed 2025-11-22**
    - Implement reset controllers/services, mailer, and UI forms; integrate lockout notifications and unlock path.
    - Add background job to purge expired tokens nightly.
-4. **Hardening & Observability (Week 4)**
+4. **Hardening & Observability (Week 4) — ✅ Completed 2025-11-22**
    - Add audit logging (structured events for login success/failure), metrics (failed logins per shop), and basic rate limiting (Rack::Attack or Solid Rack).
    - Final QA: system tests for login/logout/reset, throttling tests, penetration checklist.
-5. **Localization Cleanup (Week 5)**
+5. **Localization Cleanup (Week 5) — ✅ Completed 2025-11-22**
    - Extract all user-facing authentication messages (flash alerts/notices, validation errors, mailer copy) into locale files for translation.
    - Ensure controllers/services reference I18n keys and add tests covering missing translations in CI.
 

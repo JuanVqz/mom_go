@@ -36,13 +36,13 @@ module AuthenticationHelpers
   def require_authentication
     return if current_user.present?
 
-    redirect_to new_shops_session_path, alert: "Please sign in to continue."
+    redirect_to new_shops_session_path, alert: I18n.t("auth.flash.helpers.require_authentication")
   end
 
   def ensure_shop!
     return if Current.shop.present?
 
-    render plain: "Shop not found", status: :not_found
+    render plain: I18n.t("auth.errors.shop_missing"), status: :not_found
   end
 
   def redirect_authenticated_user

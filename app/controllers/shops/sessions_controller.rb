@@ -12,7 +12,7 @@ module Shops
 
       if result.success?
         sign_in(result.user)
-        redirect_to shops_dashboard_path, notice: "Signed in successfully."
+        redirect_to shops_dashboard_path, notice: t("auth.flash.sessions.create")
       else
         @session_form = result.form
         flash.now[:alert] = result.error
@@ -23,7 +23,7 @@ module Shops
     def destroy
       ensure_shop!
       sign_out
-      redirect_to new_shops_session_path, notice: "Signed out successfully."
+      redirect_to new_shops_session_path, notice: t("auth.flash.sessions.destroy")
     end
 
     private

@@ -24,7 +24,7 @@ module Auth
       result = ResetPassword.call(shop: @shop, token: "bad-token", params: { password: "new-secure-pass", password_confirmation: "new-secure-pass" })
 
       refute result.success?
-      assert_equal "That reset link is invalid or has expired.", result.error
+      assert_equal I18n.t("auth.flash.password_resets.invalid_token"), result.error
     end
 
     test "rejects expired token" do
@@ -32,7 +32,7 @@ module Auth
         result = ResetPassword.call(shop: @shop, token: @token, params: { password: "new-secure-pass", password_confirmation: "new-secure-pass" })
 
         refute result.success?
-        assert_equal "That reset link is invalid or has expired.", result.error
+        assert_equal I18n.t("auth.flash.password_resets.invalid_token"), result.error
       end
     end
 

@@ -27,7 +27,7 @@ module Auth
       result = GenerateResetToken.call(shop: @shop, params: { email: "" })
 
       refute result.success?
-      assert_equal "Enter your email address.", result.error
+      assert_equal I18n.t("auth.errors.request_email_missing"), result.error
     end
 
     test "is successful even when email does not exist" do

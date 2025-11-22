@@ -1,6 +1,6 @@
 <section class="max-w-md mx-auto py-12">
   <h1 class="text-2xl font-semibold text-center mb-6">
-    Reset your password
+    <%= t(".heading") %>
   </h1>
 
   <% if flash[:alert] %>
@@ -9,8 +9,9 @@
     </div>
   <% end %>
 
+  <% shop_name = Current.shop&.name || t("auth.brand_name") %>
   <p class="mb-4 text-sm text-gray-700 text-center">
-    Enter the email you use for <%= Current.shop&.name || "MomGo" %> and we'll send reset instructions.
+    <%= t(".instructions", shop_name:) %>
   </p>
 
   <%= form_with model: @password_reset_request_form, url: shops_password_reset_path, class: "space-y-6" do |form| %>
@@ -22,10 +23,10 @@
       <% end %>
     </div>
 
-    <%= form.submit "Send reset link", class: "w-full rounded bg-gray-900 px-4 py-2 text-white" %>
+    <%= form.submit t(".submit"), class: "w-full rounded bg-gray-900 px-4 py-2 text-white" %>
   <% end %>
 
   <p class="mt-6 text-center text-sm">
-    <%= link_to "Back to sign in", new_shops_session_path, class: "text-gray-700 underline" %>
+    <%= link_to t(".back_to_sign_in"), new_shops_session_path, class: "text-gray-700 underline" %>
   </p>
 </section>

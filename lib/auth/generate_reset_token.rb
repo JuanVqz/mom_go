@@ -15,7 +15,7 @@ module Auth
       return shop_missing unless shop
 
       form = PasswordResetRequestForm.new(email: params[:email])
-      return failure(form:, error: "Enter your email address.") unless form.valid?
+      return failure(form:, error: I18n.t("auth.errors.request_email_missing")) unless form.valid?
 
       user = locate_user(form.normalized_email)
       if user
@@ -45,7 +45,7 @@ module Auth
     end
 
     def shop_missing
-      Result.new(success?: false, form: PasswordResetRequestForm.new, error: "Shop not found")
+      Result.new(success?: false, form: PasswordResetRequestForm.new, error: I18n.t("auth.errors.shop_missing"))
     end
   end
 end

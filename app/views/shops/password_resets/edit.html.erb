@@ -1,6 +1,6 @@
 <section class="max-w-md mx-auto py-12">
   <h1 class="text-2xl font-semibold text-center mb-6">
-    Choose a new password
+    <%= t(".heading") %>
   </h1>
 
   <% if flash[:alert] %>
@@ -28,10 +28,10 @@
       <% end %>
     </div>
 
-    <%= form.submit "Update password", class: "w-full rounded bg-gray-900 px-4 py-2 text-white" %>
+    <%= form.submit t(".submit"), class: "w-full rounded bg-gray-900 px-4 py-2 text-white" %>
   <% end %>
 
   <p class="mt-6 text-center text-sm">
-    <%= link_to "Back to sign in", new_shops_session_path, class: "text-gray-700 underline" %>
+    <%= link_to t(".back_to_sign_in"), new_shops_session_path, class: "text-gray-700 underline" %>
   </p>
 </section>

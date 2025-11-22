@@ -16,7 +16,7 @@ module Shops
       get new_shops_password_reset_path
 
       assert_response :success
-      assert_select "h1", text: /Reset your password/
+      assert_select "h1", text: I18n.t("shops.password_resets.new.heading")
     end
 
     test "creates reset token and redirects" do
@@ -40,14 +40,14 @@ module Shops
       get edit_shops_password_reset_path(token: token)
 
       assert_response :success
-      assert_select "h1", text: /Choose a new password/
+      assert_select "h1", text: I18n.t("shops.password_resets.edit.heading")
     end
 
     test "redirects for invalid token" do
       get edit_shops_password_reset_path(token: "bogus")
 
       assert_redirected_to new_shops_password_reset_path
-      assert_equal "That reset link is invalid or has expired.", flash[:alert]
+      assert_equal I18n.t("auth.flash.password_resets.invalid_token"), flash[:alert]
     end
 
     test "updates password and signs in" do
@@ -68,7 +68,7 @@ module Shops
       }
 
       assert_response :unprocessable_entity
-      assert_equal "That reset link is invalid or has expired.", flash[:alert]
+      assert_equal I18n.t("auth.flash.password_resets.invalid_token"), flash[:alert]
     end
   end
 end

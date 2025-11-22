@@ -20,7 +20,7 @@ module Auth
       return shop_missing unless shop
 
       form = PasswordResetForm.new(params)
-      return failure(form:, error: "Please fix the errors below.") unless form.valid?
+      return failure(form:, error: I18n.t("auth.errors.reset_form_invalid")) unless form.valid?
 
       user = token_user
       return failure(form:, error: invalid_token_error) unless user
@@ -59,11 +59,11 @@ module Auth
     end
 
     def shop_missing
-      Result.new(success?: false, form: PasswordResetForm.new, error: "Shop not found", user: nil)
+      Result.new(success?: false, form: PasswordResetForm.new, error: I18n.t("auth.errors.shop_missing"), user: nil)
     end
 
     def invalid_token_error
-      "That reset link is invalid or has expired."
+      I18n.t("auth.flash.password_resets.invalid_token")
     end
   end
 end

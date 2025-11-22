@@ -1,7 +1,7 @@
 <section class="prose max-w-xl mx-auto py-12 text-center">
-  <p class="text-sm text-gray-500">Signed in as</p>
+  <p class="text-sm text-gray-500"><%= t(".signed_in_as") %></p>
   <h1 class="text-2xl font-semibold"><%= current_user&.name %></h1>
-  <p class="mt-4">This is a placeholder dashboard. Replace with preparation/order views as features land.</p>
+  <p class="mt-4"><%= t(".placeholder") %></p>
 
-  <%= button_to "Sign out", shops_session_path, method: :delete, class: "mt-6 inline-flex items-center justify-center px-4 py-2 bg-gray-900 text-white rounded" %>
+  <%= button_to t(".sign_out"), shops_session_path, method: :delete, class: "mt-6 inline-flex items-center justify-center px-4 py-2 bg-gray-900 text-white rounded" %>
 </section>

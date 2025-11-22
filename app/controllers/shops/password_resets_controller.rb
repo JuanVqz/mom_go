@@ -12,7 +12,7 @@ module Shops
       @password_reset_request_form = result.form
 
       if result.success?
-        redirect_to new_shops_session_path, notice: "If that email exists, we've sent password reset instructions."
+        redirect_to new_shops_session_path, notice: t("auth.flash.password_resets.create")
       else
         flash.now[:alert] = result.error
         render :new, status: :unprocessable_entity
@@ -21,7 +21,7 @@ module Shops
 
     def edit
       unless Auth::ResetPassword.token_valid?(shop: Current.shop, token: token_param)
-        redirect_to new_shops_password_reset_path, alert: "That reset link is invalid or has expired."
+        redirect_to new_shops_password_reset_path, alert: t("auth.flash.password_resets.invalid_token")
         return
       end
 
@@ -34,7 +34,7 @@ module Shops
 
       if result.success?
         sign_in(result.user)
-        redirect_to shops_dashboard_path, notice: "Password updated successfully."
+        redirect_to shops_dashboard_path, notice: t("auth.flash.password_resets.update")
       else
         flash.now[:alert] = result.error
         render :edit, status: :unprocessable_entity
@@ -58,7 +58,7 @@ module Shops
     def require_token!
       return if token_param.present?
 
-      redirect_to new_shops_password_reset_path, alert: "Reset token is missing."
+      redirect_to new_shops_password_reset_path, alert: t("auth.flash.password_resets.missing_token")
     end
   end
 end

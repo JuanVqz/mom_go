@@ -8,6 +8,7 @@ module Auth
       @shop = shops(:tea)
       Current.reset
       ActionMailer::Base.deliveries.clear
+      Auth::Metrics.reset_failed_login!(shop: @shop)
     end
 
     teardown do
@@ -28,7 +29,7 @@ module Auth
         result = Login.call(shop: @shop, params: { email: user.email, password: "wrong-credential" })
 
         refute result.success?
-        assert_equal "Invalid email or password.", result.error
+        assert_equal I18n.t("auth.errors.invalid_credentials"), result.error
       end
 
       assert_equal 1, user.reload.failed_attempts
@@ -40,7 +41,7 @@ module Auth
       result = Login.call(shop: @shop, params: { email: user.email, password: "locked-credential" })
 
       refute result.success?
-      assert_equal "Account locked. Please reset your password or contact support.", result.error
+      assert_equal I18n.t("auth.errors.locked"), result.error
     end
 
     test "locks account after threshold and emails user" do
@@ -58,14 +59,47 @@ module Auth
       perform_enqueued_jobs
 
       mail = ActionMailer::Base.deliveries.last
-      assert_includes mail.subject, "account is locked"
+      expected_subject = I18n.t("auth_mailer.account_locked.subject", brand: I18n.t("auth.brand_name"))
+      assert_equal expected_subject, mail.subject
     end
 
     test "fails when shop is missing" do
       result = Login.call(shop: nil, params: { email: "test@example.com", password: "secret" })
 
       refute result.success?
-      assert_equal "Shop not found", result.error
+      assert_equal I18n.t("auth.errors.shop_missing"), result.error
+    end
+
+    test "increments failed login metric" do
+      Login.call(shop: @shop, params: { email: "staff@tea.momgo.test", password: "wrong" })
+
+      assert_equal 1, Auth::Metrics.failed_login_count(shop: @shop)
+    end
+
+    test "instruments login events" do
+      payloads = capture_notifications("auth.login") do
+        Login.call(shop: @shop, params: { email: "STAFF@tea.momgo.test", password: "tea-credential" }, ip: "127.0.0.1")
+      end
+
+      assert_includes payloads.map { |data| data[:status] }, :success
+      assert_equal @shop.id, payloads.last[:shop_id]
+
+      failure_payloads = capture_notifications("auth.login") do
+        Login.call(shop: @shop, params: { email: "staff@tea.momgo.test", password: "wrong" }, ip: "127.0.0.1")
+      end
+
+      failure = failure_payloads.detect { |data| data[:status] != :success }
+      assert_equal :failure, failure[:status]
+      assert_equal :invalid_credentials, failure.dig(:metadata, :reason)
+    end
+
+    def capture_notifications(event)
+      payloads = []
+      subscriber = ActiveSupport::Notifications.subscribe(event) { |*args| payloads << args.last }
+      yield
+      payloads
+    ensure
+      ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
     end
   end
 end

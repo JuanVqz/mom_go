@@ -10,7 +10,8 @@ module Shops
       get new_shops_session_path
 
       assert_response :success
-      assert_select "h1", text: /Sign in/
+      expected = I18n.t("shops.sessions.new.heading", shop_name: shops(:tea).name)
+      assert_select "h1", text: expected
     end
 
     test "returns 404 when shop is missing" do
@@ -19,7 +20,7 @@ module Shops
       get new_shops_session_path
 
       assert_response :not_found
-      assert_match "Shop not found", @response.body
+      assert_match I18n.t("auth.errors.shop_missing"), @response.body
     end
 
     test "rejects blank submission" do

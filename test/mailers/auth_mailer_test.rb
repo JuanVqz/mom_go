@@ -8,6 +8,8 @@ class AuthMailerTest < ActionMailer::TestCase
     email = AuthMailer.with(user:).password_reset
 
     assert_equal [user.email], email.to
+    expected_subject = I18n.t("auth_mailer.password_reset.subject", brand: I18n.t("auth.brand_name"))
+    assert_equal expected_subject, email.subject
     assert_includes email.body.encoded, "tea.example.com"
     assert_includes email.body.encoded, token
   end
@@ -19,7 +21,8 @@ class AuthMailerTest < ActionMailer::TestCase
     email = AuthMailer.with(user:).account_locked
 
     assert_equal [user.email], email.to
-    assert_includes email.subject, "locked"
+    expected_subject = I18n.t("auth_mailer.account_locked.subject", brand: I18n.t("auth.brand_name"))
+    assert_equal expected_subject, email.subject
     assert_includes email.body.encoded, token
   end
 end
