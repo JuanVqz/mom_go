@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  subdomain_required = lambda do |request|
+    subdomain = request.subdomains.first
+    subdomain.present? && subdomain != "www"
+  end
+
+  constraints(subdomain_required) do
+    scope module: :shops, as: :shops do
+      resource :session, only: %i[new create destroy]
+      resource :dashboard, only: :show
+    end
+
+    root to: "shops/sessions#new", as: :shop_root
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

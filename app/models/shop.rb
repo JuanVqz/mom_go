@@ -11,5 +11,13 @@ class Shop < ApplicationRecord
   validates :name, presence: true
   validates :subdomain, presence: true, uniqueness: { case_sensitive: false }
 
-  normalizes :subdomain, with: ->(subdomain) { subdomain.to_s.strip.parameterize }
+  normalizes :subdomain, with: ->(value) { normalize_subdomain(value) }
+
+  def self.normalize_subdomain(value)
+    value.to_s
+         .dup
+         .encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
+         .strip
+         .parameterize
+  end
 end

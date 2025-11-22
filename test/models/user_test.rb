@@ -59,5 +59,4 @@ class UserTest < ActiveSupport::TestCase
     refute user.locked?
     assert_equal 0, user.failed_attempts
   end
-
 end

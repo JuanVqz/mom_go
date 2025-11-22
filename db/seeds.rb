@@ -166,9 +166,9 @@ demo_shops.each do |attributes|
     record.description = attributes[:description]
   end
 
-  shop.users.find_or_create_by!(email: "staff@#{shop.subdomain}.momgo.test") do |user|
+  shop.users.find_or_create_by!(email: "staff@#{shop.subdomain}.test") do |user|
     user.name = "#{shop.name} Staff"
-    user.password = "#{shop.subdomain.capitalize}_password"
+    user.password = "#{shop.subdomain}123456"
   end
 
   seed_catalog_for(shop, catalog_blueprint)

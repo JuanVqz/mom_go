@@ -37,6 +37,5 @@ module Users
     def register_successful_sign_in!(ip: nil)
       update!(last_sign_in_at: Time.current, last_sign_in_ip: ip, failed_attempts: 0, locked_at: nil)
     end
-
   end
 end

@@ -52,7 +52,7 @@ Additional constraints/indexes:
 1. **Foundation (Week 1) — ✅ Completed 2025-11-22**
    - Ship migration adding credential columns + indexes; backfill fixtures/seeds with generated passwords.
    - Update `User` model with concern, validations, and normalization tests.
-2. **Session Flow (Week 2)**
+2. **Session Flow (Week 2) — ✅ Completed 2025-11-22**
    - Build Sessions controller/views, `Auth::Login` service, and Turbo-friendly form with error states.
    - Wire `require_authentication` across existing shop dashboards; ensure friendly redirect back to login.
 3. **Password Reset & Lockout (Week 3)**
@@ -61,6 +61,9 @@ Additional constraints/indexes:
 4. **Hardening & Observability (Week 4)**
    - Add audit logging (structured events for login success/failure), metrics (failed logins per shop), and basic rate limiting (Rack::Attack or Solid Rack).
    - Final QA: system tests for login/logout/reset, throttling tests, penetration checklist.
+5. **Localization Cleanup (Week 5)**
+   - Extract all user-facing authentication messages (flash alerts/notices, validation errors, mailer copy) into locale files for translation.
+   - Ensure controllers/services reference I18n keys and add tests covering missing translations in CI.
 
 ## Testing Strategy
 - **Model tests**: password validation, lockout transitions, token generation/expiry, normalization.
