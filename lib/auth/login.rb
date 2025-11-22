@@ -20,13 +20,12 @@ module Auth
 
       user = locate_user(form.normalized_email)
 
-      unless user&.authenticate(form.password)
-        user&.increment_failed_attempts!
-        return failure(form:, error: default_error)
-      end
+      return failure(form:, error: locked_error) if user&.locked?
 
-      if user.locked?
-        return failure(form:, error: "Account locked. Please reset your password or contact support.")
+      unless user&.authenticate(form.password)
+        newly_locked = user&.increment_failed_attempts!(threshold: lock_threshold)
+        handle_lock_notification(user) if newly_locked
+        return failure(form:, error: default_error)
       end
 
       user.register_successful_sign_in!(ip: ip)
@@ -57,6 +56,23 @@ module Auth
 
     def default_error
       "Invalid email or password."
+    end
+
+    def locked_error
+      "Account locked. Please reset your password or contact support."
+    end
+
+    def lock_threshold
+      raw = ENV["AUTH_MAX_FAILED_ATTEMPTS"]
+      value = raw.present? ? raw.to_i : Users::Credentials::DEFAULT_LOCK_THRESHOLD
+      value.positive? ? value : Users::Credentials::DEFAULT_LOCK_THRESHOLD
+    end
+
+    def handle_lock_notification(user)
+      return unless user
+
+      user.issue_reset_password_token!
+      AuthMailer.with(user:).account_locked.deliver_later
     end
   end
 end

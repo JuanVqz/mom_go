@@ -1,0 +1,9 @@
+<p>Hi <%= @user.name %>,</p>
+
+<p>Your <strong><%= @shop.name %></strong> account was locked after too many unsuccessful sign-in attempts. To unlock it, reset your password using the link below:</p>
+
+<p><%= link_to @reset_url, @reset_url %></p>
+
+<p>If you didn't try to sign in, please reset your password anyway to secure your account.</p>
+
+<p>– MomGo Support</p>

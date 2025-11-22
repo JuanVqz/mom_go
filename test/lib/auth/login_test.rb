@@ -2,9 +2,16 @@ require "test_helper"
 
 module Auth
   class LoginTest < ActiveSupport::TestCase
+    include ActiveJob::TestHelper
+    include ActionMailer::TestHelper
     setup do
       @shop = shops(:tea)
       Current.reset
+      ActionMailer::Base.deliveries.clear
+    end
+
+    teardown do
+      clear_enqueued_jobs
     end
 
     test "returns user when credentials valid" do
@@ -34,6 +41,24 @@ module Auth
 
       refute result.success?
       assert_equal "Account locked. Please reset your password or contact support.", result.error
+    end
+
+    test "locks account after threshold and emails user" do
+      user = users(:tea_staff)
+
+      assert_enqueued_emails 0
+
+      (Users::Credentials::DEFAULT_LOCK_THRESHOLD).times do
+        result = Login.call(shop: @shop, params: { email: user.email, password: "wrong" })
+        refute result.success?
+      end
+
+      assert user.reload.locked?
+      assert_enqueued_emails 1
+      perform_enqueued_jobs
+
+      mail = ActionMailer::Base.deliveries.last
+      assert_includes mail.subject, "account is locked"
     end
 
     test "fails when shop is missing" do

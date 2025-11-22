@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     scope module: :shops, as: :shops do
       resource :session, only: %i[new create destroy]
       resource :dashboard, only: :show
+      resource :password_reset, only: %i[new create edit update]
     end
 
     root to: "shops/sessions#new", as: :shop_root

@@ -55,7 +55,7 @@ Additional constraints/indexes:
 2. **Session Flow (Week 2) — ✅ Completed 2025-11-22**
    - Build Sessions controller/views, `Auth::Login` service, and Turbo-friendly form with error states.
    - Wire `require_authentication` across existing shop dashboards; ensure friendly redirect back to login.
-3. **Password Reset & Lockout (Week 3)**
+3. **Password Reset & Lockout (Week 3)** — ✅ Completed 2025-11-22**
    - Implement reset controllers/services, mailer, and UI forms; integrate lockout notifications and unlock path.
    - Add background job to purge expired tokens nightly.
 4. **Hardening & Observability (Week 4)**
