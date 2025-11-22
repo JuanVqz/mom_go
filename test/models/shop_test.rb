@@ -14,6 +14,13 @@ class ShopTest < ActiveSupport::TestCase
     assert_equal "tea", shop.subdomain
   end
 
+  test "handles binary encoded subdomains" do
+    raw = "Tea".b
+    shop = Shop.new(name: "Binary", subdomain: raw)
+
+    assert_equal "tea", shop.subdomain
+  end
+
   test "exposes catalog associations" do
     shop = shops(:tea)
 

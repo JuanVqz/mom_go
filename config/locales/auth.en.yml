@@ -1,0 +1,38 @@
+en:
+  auth:
+    brand_name: "MomGo"
+    flash:
+      sessions:
+        create: "Signed in successfully."
+        destroy: "Signed out successfully."
+      password_resets:
+        create: "If that email exists, we've sent password reset instructions."
+        invalid_token: "That reset link is invalid or has expired."
+        update: "Password updated successfully."
+        missing_token: "Reset token is missing."
+      helpers:
+        require_authentication: "Please sign in to continue."
+      rate_limit: "Too many attempts. Please try again later."
+    errors:
+      missing_params: "Enter both email and password."
+      invalid_credentials: "Invalid email or password."
+      locked: "Account locked. Please reset your password or contact support."
+      shop_missing: "Shop not found"
+      request_email_missing: "Enter your email address."
+      reset_form_invalid: "Please fix the errors below."
+    mailer:
+      shared:
+        signature: "– %{brand} Support"
+  auth_mailer:
+    password_reset:
+      subject: "Reset your %{brand} password"
+      greeting: "Hi %{name},"
+      intro_html: "We received a request to reset your password for %{shop_name}. Click the link below to choose a new password:"
+      intro_text: "We received a request to reset your password for %{shop_name}. Use the link below to choose a new password:"
+      expires: "This link expires in %{minutes} minutes. If you didn't request a reset, you can safely ignore this email."
+    account_locked:
+      subject: "Your %{brand} account is locked"
+      greeting: "Hi %{name},"
+      intro_html: "Your %{shop_name} account was locked after too many unsuccessful sign-in attempts. Reset your password with the link below to unlock it:"
+      intro_text: "Your %{shop_name} account was locked after too many unsuccessful sign-in attempts. Reset your password with the link below to unlock it:"
+      reminder: "If you didn't try to sign in, please reset your password anyway to secure your account."

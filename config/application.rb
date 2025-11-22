@@ -23,6 +23,7 @@ module MomGo
 
     require "middleware/shop_context_middleware"
     config.middleware.use Middleware::ShopContextMiddleware
+    config.middleware.use Rack::Attack
 
     config.time_zone = "Central Time (US & Canada)"
   end

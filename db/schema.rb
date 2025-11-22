@@ -187,10 +187,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.integer "shop_id", null: false
     t.string "email", null: false
     t.string "name", null: false
+    t.string "password_digest", null: false
+    t.integer "failed_attempts", default: 0, null: false
+    t.datetime "locked_at"
+    t.datetime "last_sign_in_at"
+    t.string "last_sign_in_ip"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, where: "reset_password_token IS NOT NULL"
     t.index ["shop_id", "email"], name: "index_users_on_shop_id_and_email", unique: true
     t.index ["shop_id"], name: "index_users_on_shop_id"
+    t.check_constraint "failed_attempts >= 0", name: "users_failed_attempts_non_negative"
+    t.check_constraint "length(password_digest) >= 60", name: "users_password_digest_length_check"
   end
 
   add_foreign_key "categories", "shops", on_delete: :restrict

@@ -1,0 +1,22 @@
+en:
+  shops:
+    sessions:
+      new:
+        heading: "Sign in to %{shop_name}"
+        submit: "Sign in"
+        forgot_password: "Forgot your password?"
+    password_resets:
+      new:
+        heading: "Reset your password"
+        instructions: "Enter the email you use for %{shop_name} and we'll send reset instructions."
+        submit: "Send reset link"
+        back_to_sign_in: "Back to sign in"
+      edit:
+        heading: "Choose a new password"
+        submit: "Update password"
+        back_to_sign_in: "Back to sign in"
+    dashboards:
+      show:
+        signed_in_as: "Signed in as"
+        placeholder: "This is a placeholder dashboard. Replace with preparation/order views as features land."
+        sign_out: "Sign out"
