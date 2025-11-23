@@ -1,0 +1,10 @@
+en:
+  orders:
+    flash:
+      created: "Order created successfully"
+    cart:
+      item_added: "Item added to cart"
+      item_removed: "Item removed from cart"
+      empty: "Add at least one item before continuing"
+      size_required: "Select a size before adding this product"
+      size_unavailable: "Selected size is not available"

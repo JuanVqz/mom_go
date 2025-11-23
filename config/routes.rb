@@ -9,6 +9,13 @@ Rails.application.routes.draw do
       resource :session, only: %i[new create destroy]
       resource :dashboard, only: :show
       resource :password_reset, only: %i[new create edit update]
+      resources :orders, only: %i[new show] do
+        collection do
+          get :checkout
+          post :commit
+        end
+      end
+      resources :cart_items, only: %i[create destroy]
     end
 
     root to: "shops/sessions#new", as: :shop_root

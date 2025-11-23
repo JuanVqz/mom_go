@@ -34,10 +34,10 @@ catalog_blueprint = {
         { size_slug: "large", price_cents: 100 }
       ],
       component_options: [
-        { component_slug: "assam-black-tea-base", price_cents: 0, default_portion: :full, required: true },
-        { component_slug: "house-milk-blend", price_cents: 0, default_portion: :full, required: true },
-        { component_slug: "tapioca-pearls", price_cents: 50, default_portion: :half },
-        { component_slug: "grass-jelly", price_cents: 75, default_portion: :quarter }
+        { component_slug: "assam-black-tea-base", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
+        { component_slug: "house-milk-blend", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
+        { component_slug: "tapioca-pearls", price_cents: 50, default_portion: :full, role: :extra },
+        { component_slug: "grass-jelly", price_cents: 75, default_portion: :full, role: :extra }
       ]
     },
     {
@@ -52,10 +52,10 @@ catalog_blueprint = {
         { size_slug: "large", price_cents: 150 }
       ],
       component_options: [
-        { component_slug: "ceremonial-matcha-shot", price_cents: 0, default_portion: :full, required: true },
-        { component_slug: "vanilla-cloud-base", price_cents: 0, default_portion: :half, required: true },
-        { component_slug: "cheese-foam", price_cents: 0, default_portion: :quarter, required: true },
-        { component_slug: "tapioca-pearls", price_cents: 50, default_portion: :half }
+        { component_slug: "ceremonial-matcha-shot", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
+        { component_slug: "vanilla-cloud-base", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
+        { component_slug: "cheese-foam", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
+        { component_slug: "tapioca-pearls", price_cents: 50, default_portion: :full, role: :extra }
       ]
     }
   ]
@@ -118,6 +118,7 @@ def seed_catalog_for(shop, blueprint)
       record.price_cents = component_option.fetch(:price_cents, 0)
       record.required = component_option.fetch(:required, false)
       record.default_portion = component_option.fetch(:default_portion, :none)
+      record.role = component_option.fetch(:role, :ingredient)
       record.save!
     end
   end

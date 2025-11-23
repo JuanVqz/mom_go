@@ -119,6 +119,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.integer "price_cents", default: 0, null: false
     t.boolean "required", default: false, null: false
     t.integer "default_portion", default: 0, null: false
+    t.integer "role", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["component_id"], name: "index_product_components_on_component_id"

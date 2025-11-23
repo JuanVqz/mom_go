@@ -5,6 +5,7 @@ classic_tapioca:
   price_cents: 50
   required: false
   default_portion: half
+  role: extra
 
 classic_grass_jelly:
   shop: tea
@@ -13,6 +14,7 @@ classic_grass_jelly:
   price_cents: 75
   required: false
   default_portion: quarter
+  role: extra
 
 classic_black_tea_base:
   shop: tea
@@ -21,6 +23,7 @@ classic_black_tea_base:
   price_cents: 0
   required: true
   default_portion: full
+  role: ingredient
 
 classic_house_milk_blend:
   shop: tea
@@ -29,6 +32,7 @@ classic_house_milk_blend:
   price_cents: 0
   required: true
   default_portion: full
+  role: ingredient
 
 matcha_cheese_foam:
   shop: tea
@@ -37,6 +41,7 @@ matcha_cheese_foam:
   price_cents: 0
   required: true
   default_portion: quarter
+  role: ingredient
 
 matcha_ceremonial_shot:
   shop: tea
@@ -45,6 +50,7 @@ matcha_ceremonial_shot:
   price_cents: 0
   required: true
   default_portion: full
+  role: ingredient
 
 matcha_vanilla_cloud_base:
   shop: tea
@@ -53,3 +59,4 @@ matcha_vanilla_cloud_base:
   price_cents: 0
   required: true
   default_portion: half
+  role: ingredient

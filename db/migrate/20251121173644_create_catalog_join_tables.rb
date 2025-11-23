@@ -29,6 +29,7 @@ class CreateCatalogJoinTables < ActiveRecord::Migration[8.0]
       t.integer :price_cents, null: false, default: 0
       t.boolean :required, null: false, default: false
       t.integer :default_portion, null: false, default: 0
+      t.integer :role, null: false, default: 0
 
       t.timestamps
     end

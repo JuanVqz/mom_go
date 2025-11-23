@@ -1,0 +1,128 @@
+<h1 class="text-2xl font-semibold mb-4">Build Order</h1>
+
+<% if flash[:alert] %>
+  <div class="mb-4 rounded bg-red-100 text-red-700 px-4 py-2">
+    <%= flash[:alert] %>
+  </div>
+<% elsif flash[:notice] %>
+  <div class="mb-4 rounded bg-emerald-100 text-emerald-700 px-4 py-2">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<% if @products.empty? %>
+  <p class="text-gray-600">No products are available for this shop yet.</p>
+<% else %>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <% @products.each do |product| %>
+        <section class="border rounded px-4 py-3">
+          <header class="mb-3">
+            <h2 class="text-xl font-medium"><%= product.name %></h2>
+            <% if product.description.present? %>
+              <p class="text-gray-600"><%= product.description %></p>
+            <% end %>
+          </header>
+
+          <%= form_with url: shops_cart_items_path, method: :post, local: true do %>
+            <%= hidden_field_tag "cart_item[product_id]", product.id %>
+
+            <div class="grid gap-4">
+              <div>
+                <p class="font-semibold mb-2">Ingredients</p>
+                <div class="space-y-2">
+                  <% product.product_components.select(&:ingredient?).each do |ingredient| %>
+                    <div class="flex items-center justify-between gap-4">
+                      <div>
+                        <p class="font-medium"><%= ingredient.component.name %></p>
+                        <p class="text-sm text-gray-500">Default: <%= ingredient.default_portion.humanize %></p>
+                      </div>
+                      <%= select_tag "cart_item[ingredient_portions][#{ingredient.component_id}]",
+                                     options_for_select(portion_options, ingredient.default_portion),
+                                     class: "border rounded px-2 py-1" %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+
+              <div>
+                <% if product.product_sizes.any? %>
+                  <div class="mb-4">
+                    <label class="block font-semibold mb-1" for="cart_item_product_size_<%= product.id %>">Size</label>
+                    <%= select_tag "cart_item[product_size_id]",
+                                   options_for_select([["Choose size", ""]] + product.product_sizes.map { |product_size| [product_size.size.name, product_size.id] }),
+                                   id: "cart_item_product_size_#{product.id}",
+                                   class: "border rounded px-2 py-1 w-full",
+                                   required: true %>
+                  </div>
+                <% end %>
+
+                <% extras = product.product_components.select(&:extra?) %>
+                <% if extras.any? %>
+                  <div class="mb-4 space-y-2">
+                    <p class="font-semibold">Extras</p>
+                    <% extras.each do |extra| %>
+                      <div class="flex items-center justify-between gap-2">
+                        <span><%= extra.component.name %> <small class="text-gray-500">(+<%= number_to_currency(extra.price_cents / 100.0) %>)</small></span>
+                        <%= select_tag "cart_item[component_portions][#{extra.component_id}]",
+                                       options_for_select(portion_options, "none"),
+                                       class: "border rounded px-2 py-1" %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+
+                <%= submit_tag "Add to cart", class: "bg-indigo-600 text-white px-4 py-2 rounded" %>
+              </div>
+            </div>
+          <% end %>
+        </section>
+      <% end %>
+    </div>
+
+    <aside class="border rounded px-4 py-3 h-fit">
+      <h2 class="text-xl font-medium mb-3">Cart</h2>
+      <% if @cart_empty %>
+        <p class="text-gray-600">No items yet. Add a product to get started.</p>
+      <% else %>
+        <ul class="space-y-3">
+          <% @cart_items.each do |item| %>
+            <li class="border rounded px-3 py-2">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="font-semibold"><%= item[:product].name %></p>
+                  <% if item[:size]&.size %>
+                    <p class="text-sm text-gray-600">Size: <%= item[:size].size.name %></p>
+                  <% end %>
+                </div>
+                <%= button_to "Remove",
+                              shops_cart_item_path(item[:id]),
+                              method: :delete,
+                              class: "text-sm text-red-600",
+                              data: { turbo: false } %>
+              </div>
+
+              <% selected_extras = item[:extras].reject { |extra| extra[:portion] == "none" } %>
+              <% if selected_extras.any? %>
+                <p class="text-sm text-gray-600 mt-2">Extras:</p>
+                <ul class="list-disc list-inside text-sm text-gray-700">
+                  <% selected_extras.each do |extra| %>
+                    <li><%= extra[:product_component].component.name %> — <%= extra[:portion].humanize %></li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <div class="mt-4">
+        <% if @cart_empty %>
+          <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded w-full" disabled>Review & save</button>
+        <% else %>
+          <%= link_to "Review & save", checkout_shops_orders_path, class: "block text-center bg-emerald-600 text-white px-4 py-2 rounded" %>
+        <% end %>
+      </div>
+    </aside>
+  </div>
+<% end %>
