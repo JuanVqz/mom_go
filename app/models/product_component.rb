@@ -15,6 +15,12 @@ class ProductComponent < ApplicationRecord
     full: 4
   }, prefix: :default_portion
 
+  enum :role, {
+    ingredient: 0,
+    extra: 1
+  }
+
   validates :price_cents, numericality: { greater_than_or_equal_to: 0 }
+  validates :role, presence: true
   validates :product_id, uniqueness: { scope: [:component_id, :shop_id] }
 end

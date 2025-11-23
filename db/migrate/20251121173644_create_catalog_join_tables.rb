@@ -29,6 +29,7 @@ class CreateCatalogJoinTables < ActiveRecord::Migration[8.0]
       t.integer :price_cents, null: false, default: 0
       t.boolean :required, null: false, default: false
       t.integer :default_portion, null: false, default: 0
+      t.integer :role, null: false, default: 0
 
       t.timestamps
     end
@@ -36,5 +37,6 @@ class CreateCatalogJoinTables < ActiveRecord::Migration[8.0]
     add_index :product_components, %i[shop_id product_id component_id], unique: true, name: "index_product_components_uniqueness"
     add_check_constraint :product_components, "price_cents >= 0", name: "product_components_price_cents_check"
     add_check_constraint :product_components, "default_portion IN (0,1,2,3,4)", name: "product_components_default_portion_check"
+    add_check_constraint :product_components, "role IN (0,1)", name: "product_components_role_check"
   end
 end

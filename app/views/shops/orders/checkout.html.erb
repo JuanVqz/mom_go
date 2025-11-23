@@ -1,0 +1,102 @@
+<h1 class="text-2xl font-semibold mb-4">Confirm Order</h1>
+
+<% if flash[:alert] %>
+  <div class="mb-4 rounded bg-red-100 text-red-700 px-4 py-2">
+    <%= flash[:alert] %>
+  </div>
+<% elsif flash[:notice] %>
+  <div class="mb-4 rounded bg-emerald-100 text-emerald-700 px-4 py-2">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<div class="space-y-4">
+  <% @cart_items.each do |item| %>
+    <section class="border rounded px-4 py-3 space-y-4">
+      <header class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-medium"><%= item[:product].name %></h2>
+          <% if item[:size]&.size %>
+            <p class="text-gray-600">Size: <%= item[:size].size.name %></p>
+          <% end %>
+        </div>
+        <%= button_to "Remove",
+                      shops_cart_item_path(item[:id]),
+                      method: :delete,
+                      class: "text-sm text-red-600",
+                      data: { turbo: false } %>
+      </header>
+
+      <%= form_with url: shops_cart_item_path(item[:id]), method: :patch, local: true, class: "space-y-4" do %>
+        <%= hidden_field_tag "cart_item[product_id]", item[:product].id %>
+
+        <% if item[:product].product_sizes.any? %>
+          <div>
+            <label class="block font-semibold mb-1" for="cart_item_product_size_<%= item[:id] %>">Size</label>
+            <%= select_tag "cart_item[product_size_id]",
+                           options_for_select(
+                             [["Choose size", ""]] + item[:product].product_sizes.map { |product_size| [product_size.size.name, product_size.id] },
+                             item[:size]&.id
+                           ),
+                           id: "cart_item_product_size_#{item[:id]}",
+                           class: "border rounded px-2 py-1 w-full",
+                           required: true %>
+          </div>
+        <% end %>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <p class="font-semibold mb-2">Ingredients</p>
+            <% item[:ingredients].each do |ingredient| %>
+              <% product_component = ingredient[:product_component] %>
+              <div class="flex items-center justify-between gap-4 border rounded px-3 py-2 mb-2">
+                <div>
+                  <p class="font-medium">
+                    <%= product_component.component.name %><%= " *" if product_component.required? %>
+                  </p>
+                  <p class="text-xs text-gray-500">Default: <%= product_component.default_portion.humanize %></p>
+                </div>
+                <%= select_tag "cart_item[ingredient_portions][#{product_component.component_id}]",
+                               options_for_select(portion_options_for(product_component), ingredient[:portion]),
+                               class: "border rounded px-2 py-1" %>
+              </div>
+            <% end %>
+          </div>
+
+          <div>
+            <p class="font-semibold mb-2">Extras</p>
+            <% if item[:extras].any? %>
+              <% item[:extras].each do |extra| %>
+                <% product_component = extra[:product_component] %>
+                <div class="flex items-center justify-between gap-4 border rounded px-3 py-2 mb-2">
+                  <div>
+                    <p class="font-medium"><%= product_component.component.name %></p>
+                    <p class="text-xs text-gray-500">+<%= number_to_currency(product_component.price_cents / 100.0) %></p>
+                  </div>
+                  <%= select_tag "cart_item[component_portions][#{product_component.component_id}]",
+                                 options_for_select(portion_options, extra[:portion] || "none"),
+                                 class: "border rounded px-2 py-1" %>
+                </div>
+              <% end %>
+            <% else %>
+              <p class="text-gray-600">No optional extras for this product.</p>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="flex justify-end">
+          <%= submit_tag "Update item", class: "bg-indigo-600 text-white px-4 py-2 rounded" %>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+</div>
+
+<div class="mt-6 flex flex-col gap-3 md:flex-row">
+  <%= button_to "Save order",
+                commit_shops_orders_path,
+                method: :post,
+                class: "bg-emerald-600 text-white px-4 py-2 rounded text-center",
+                data: { turbo: false } %>
+  <%= link_to "Back to catalog", new_shops_order_path, class: "text-indigo-600 text-center px-4 py-2" %>
+</div>

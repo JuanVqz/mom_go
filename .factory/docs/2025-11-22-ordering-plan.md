@@ -5,7 +5,7 @@
 - Register middleware in `config/application.rb` before controller stack; ensure thread safety via `CurrentAttributes` or similar pattern.
 - Add `app/models/concerns/shop_scoped.rb` to centralize `belongs_to :shop`, validations, and `default_scope { where(shop_id: Current.shop.id) }` helpers across tenant models.
 
-## 2. Ordering Workflow (HTML Baseline)
+## 2. Ordering Workflow (HTML Baseline) - ✅ Completed (2025-11-22)
 - Service object `app/services/orders/create_order.rb` ingests params/cart, snapshots catalog data, and persists `Order`, `OrderItem`, `OrderItemComponent` with defaults/enums enforced.
 - Controller `OrdersController` (`new`, `create`, `show`) plus ERB views in `app/views/orders/` for basic form submission and order summary display.
 - Add integration test `test/integration/orders/order_creation_flow_test.rb` to cover happy path and snapshot pricing behavior.
