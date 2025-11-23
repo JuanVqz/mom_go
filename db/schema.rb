@@ -128,6 +128,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_182000) do
     t.index ["shop_id"], name: "index_product_components_on_shop_id"
     t.check_constraint "default_portion IN (0,1,2,3,4)", name: "product_components_default_portion_check"
     t.check_constraint "price_cents >= 0", name: "product_components_price_cents_check"
+    t.check_constraint "role IN (0,1)", name: "product_components_role_check"
   end
 
   create_table "product_sizes", force: :cascade do |t|

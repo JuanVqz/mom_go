@@ -11,6 +11,10 @@ class OrderCart
     data["items"].dup
   end
 
+  def find_item(id)
+    data["items"].find { |item| item["id"] == id }
+  end
+
   def add_item(product_id:, product_size_id:, component_portions: {}, ingredient_portions: {})
     normalized_portions = normalize_portions(component_portions)
     normalized_ingredients = normalize_portions(ingredient_portions)
@@ -23,6 +27,17 @@ class OrderCart
     }
 
     data["items"] << item
+    persist!
+    item
+  end
+
+  def update_item(id:, component_portions:, ingredient_portions: {}, product_size_id: nil)
+    item = find_item(id)
+    raise ArgumentError, "Cart item not found" unless item
+
+    item["component_portions"] = normalize_portions(component_portions)
+    item["ingredient_portions"] = normalize_portions(ingredient_portions)
+    item["product_size_id"] = product_size_id
     persist!
     item
   end

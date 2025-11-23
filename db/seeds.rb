@@ -34,7 +34,7 @@ catalog_blueprint = {
         { size_slug: "large", price_cents: 100 }
       ],
       component_options: [
-        { component_slug: "assam-black-tea-base", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
+        { component_slug: "assam-black-tea-base", price_cents: 0, default_portion: :full, required: false, role: :ingredient },
         { component_slug: "house-milk-blend", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
         { component_slug: "tapioca-pearls", price_cents: 50, default_portion: :full, role: :extra },
         { component_slug: "grass-jelly", price_cents: 75, default_portion: :full, role: :extra }
@@ -52,7 +52,7 @@ catalog_blueprint = {
         { size_slug: "large", price_cents: 150 }
       ],
       component_options: [
-        { component_slug: "ceremonial-matcha-shot", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
+        { component_slug: "ceremonial-matcha-shot", price_cents: 0, default_portion: :full, required: false, role: :ingredient },
         { component_slug: "vanilla-cloud-base", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
         { component_slug: "cheese-foam", price_cents: 0, default_portion: :full, required: true, role: :ingredient },
         { component_slug: "tapioca-pearls", price_cents: 50, default_portion: :full, role: :extra }

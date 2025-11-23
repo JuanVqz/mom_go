@@ -21,6 +21,26 @@ module Shops
       redirect_to new_shops_order_path, alert: e.message
     end
 
+    def update
+      item = find_cart_item!
+      product = load_product_for_cart_item(item)
+      size_id = resolve_size_id(item)
+      validate_product_size!(product, size_id)
+      component_portions = sanitize_component_portions(product)
+      ingredient_portions = sanitize_ingredient_portions(product)
+
+      current_cart.update_item(
+        id: item.fetch("id"),
+        component_portions: component_portions,
+        ingredient_portions: ingredient_portions,
+        product_size_id: size_id&.to_i
+      )
+
+      redirect_to checkout_shops_orders_path, notice: t("orders.cart.item_updated")
+    rescue ActiveRecord::RecordNotFound, ArgumentError => e
+      redirect_to checkout_shops_orders_path, alert: e.message
+    end
+
     def destroy
       current_cart.remove_item(params[:id])
       redirect_to new_shops_order_path, notice: t("orders.cart.item_removed")
@@ -32,11 +52,33 @@ module Shops
       product_id = cart_item_params[:product_id]
       raise ArgumentError, "Product is required" if product_id.blank?
 
-      Current.shop.products.includes(:product_sizes, product_components: :component).find(product_id)
+      product_scope.find(product_id)
+    end
+
+    def load_product_for_cart_item(item)
+      product_scope.find(item.fetch("product_id"))
     end
 
     def cart_item_params
       params.require(:cart_item).permit(:product_id, :product_size_id, component_portions: {}, ingredient_portions: {})
+    end
+
+    def product_scope
+      @product_scope ||= Current.shop.products.includes(:product_sizes, product_components: :component)
+    end
+
+    def find_cart_item!
+      item = current_cart.find_item(params[:id])
+      raise ActiveRecord::RecordNotFound, "Cart item not found" unless item
+
+      item
+    end
+
+    def resolve_size_id(item)
+      size_param = cart_item_params[:product_size_id]
+      return item["product_size_id"].presence if size_param.nil?
+
+      size_param.presence
     end
 
     def sanitize_component_portions(product)

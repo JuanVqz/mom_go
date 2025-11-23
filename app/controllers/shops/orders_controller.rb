@@ -4,7 +4,7 @@ module Shops
 
     before_action :load_catalog, only: %i[new checkout]
     before_action :ensure_cart_present!, only: %i[checkout commit]
-    helper_method :portion_options
+    helper_method :portion_options, :portion_options_for
 
     def new
       assign_cart_presenters(show_all_extras: false)
@@ -114,6 +114,12 @@ module Shops
 
     def portion_options
       @portion_options ||= OrderItemComponent.portions.keys.map { |portion| [portion.humanize, portion] }
+    end
+
+    def portion_options_for(product_component)
+      return portion_options unless product_component.required?
+
+      @portion_options_without_none ||= portion_options.reject { |option| option.last == "none" }
     end
   end
 end

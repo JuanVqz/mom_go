@@ -15,7 +15,7 @@ Rails.application.routes.draw do
           post :commit
         end
       end
-      resources :cart_items, only: %i[create destroy]
+      resources :cart_items, only: %i[create destroy update]
     end
 
     root to: "shops/sessions#new", as: :shop_root

@@ -34,11 +34,13 @@
                   <% product.product_components.select(&:ingredient?).each do |ingredient| %>
                     <div class="flex items-center justify-between gap-4">
                       <div>
-                        <p class="font-medium"><%= ingredient.component.name %></p>
+                        <p class="font-medium">
+                          <%= ingredient.component.name %><%= " *" if ingredient.required? %>
+                        </p>
                         <p class="text-sm text-gray-500">Default: <%= ingredient.default_portion.humanize %></p>
                       </div>
                       <%= select_tag "cart_item[ingredient_portions][#{ingredient.component_id}]",
-                                     options_for_select(portion_options, ingredient.default_portion),
+                                     options_for_select(portion_options_for(ingredient), ingredient.default_portion),
                                      class: "border rounded px-2 py-1" %>
                     </div>
                   <% end %>
